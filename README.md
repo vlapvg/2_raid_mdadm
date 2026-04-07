@@ -180,7 +180,7 @@ Cоздаём на этих партициях ФС:
     root@april:/home/vlap# mkdir -p /raid/part{1,2,3,4,5}
     root@april:/home/vlap# for i in $(seq 1 5); do mount /dev/md0p$i /raid/part$i; done
 
-## Создание конфигурационного файла mdadm.conf  
+## Создаём конфигурационный файл mdadm.conf  
 
 Проверим информацию:
 
