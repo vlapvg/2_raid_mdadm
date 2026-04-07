@@ -16,7 +16,7 @@
 
 В настройках VirtualBox добавляем 4 диска по 1GB.  
 
-#### Cмотрим, какие блочные устройства у нас есть
+### Cмотрим, какие блочные устройства у нас есть
     root@april:/home/vlap# lshw -short | grep disk
     /0/100/1.1/0.0.0  /dev/cdrom  disk        CD-ROM
     /0/100/d/0        /dev/sda    disk        26GB VBOX HARDDISK
@@ -25,7 +25,7 @@
     /0/100/d/3        /dev/sdd    disk        1073MB VBOX HARDDISK
     /0/100/d/0.0.0    /dev/sde    disk        1073MB VBOX HARDDISK
 
-#### Занулим на всякий случай суперблоки
+### Занулим на всякий случай суперблоки
 
     root@april:/home/vlap# mdadm --zero-superblock --force /dev/sd{b,c,d,e}
     mdadm: Unrecognised md component device - /dev/sdb
@@ -33,7 +33,7 @@
     mdadm: Unrecognised md component device - /dev/sdd
     mdadm: Unrecognised md component device - /dev/sde
 
-#### Создаём Raid-10
+### Создаём Raid-10
 
     root@april:/home/vlap# mdadm --create --verbose /dev/md0 -l 10 -n 4 /dev/sd{b,c,d,e}
     mdadm: layout defaults to n2
@@ -43,7 +43,7 @@
     mdadm: Defaulting to version 1.2 metadata
     mdadm: array /dev/md0 started.
 
-#### Проверим что RAID собрался нормально
+### Проверим что RAID собрался нормально
 
     root@april:/home/vlap# cat /proc/mdstat
     Personalities : [raid0] [raid1] [raid4] [raid5] [raid6] [raid10] [linear] 
@@ -52,7 +52,7 @@
         
     unused devices: <none>  
 
-####
+###
     root@april:/home/vlap# mdadm -D /dev/md0
     /dev/md0:
           ...  
@@ -66,7 +66,7 @@
         2       8       48        2      active sync set-A   /dev/sdd
         3       8       64        3      active sync set-B   /dev/sde  
 
-#### Сломаем и починим RAID  
+### Сломаем и починим RAID  
 
 “Зафейлим” одно из блочных устройств:
 
@@ -106,7 +106,7 @@
     root@april:/home/vlap# mdadm /dev/md0 --add /dev/sde
     mdadm: added /dev/sde
 
-####
+###
 
 Смотрим процесс ребилда :  
 
@@ -178,7 +178,7 @@ Cоздаём на этих партициях ФС:
     root@april:/home/vlap# mkdir -p /raid/part{1,2,3,4,5}
     root@april:/home/vlap# for i in $(seq 1 5); do mount /dev/md0p$i /raid/part$i; done
 
-#### Создание конфигурационного файла mdadm.conf  
+### Создание конфигурационного файла mdadm.conf  
 
 Проверим информацию:
 
@@ -193,9 +193,9 @@ Cоздаём на этих партициях ФС:
     ARRAY /dev/md0 level=raid10 num-devices=4 metadata=1.2 UUID=6175f02a:ca566018:75d2e03b:e91657d4
     root@april:/home/vlap# mdadm --detail --scan --verbose | awk '/ARRAY/ {print}' >> /etc/mdadm/mdadm.conf
 
-#### Пишем баш скрипт для конфигурации рейда  
+### Пишем баш скрипт для конфигурации рейда  
 
 Просто обьединяем команды по созданию рейда и mdadm.conf файла в баш скрипт [script_raid.sh](https://github.com/vlapvg/2_raid_mdadm/blob/main/script_raid.sh)
 
-#### Задание выполнено.
+### Задание выполнено.
 
