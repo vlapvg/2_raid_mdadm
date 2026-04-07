@@ -1,4 +1,4 @@
-## ДЗ 2: Работа с mdadm. Тема 2: Дисковая подсистема.  
+# ДЗ 2: Работа с mdadm. Тема 2: Дисковая подсистема.  
 
 Скрипт для создания рейда [тут](https://github.com/vlapvg/2_raid_mdadm/blob/main/script_raid.sh)
 
